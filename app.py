@@ -306,10 +306,12 @@ def product_input(label, key):
     return photo
 
 
+
 col_a, col_b = st.columns(2)
 
 with col_a:
     photo_a = product_input(t["product_a"], "a")
+
     price_a = st.number_input(
         f"{t['price']} — A",
         min_value=0.0,
@@ -317,6 +319,14 @@ with col_a:
         step=1.0,
         key="price_a"
     )
+
+    currency_a = st.selectbox(
+        "Currency — A",
+        ["THB", "USD", "INR", "EUR", "VND", "CNY",
+         "KRW", "SAR", "AED", "GBP", "JPY", "TRY"],
+        key="currency_a"
+    )
+
     quantity_a = st.number_input(
         f"{t['quantity']} — A",
         min_value=0.01,
@@ -327,6 +337,7 @@ with col_a:
 
 with col_b:
     photo_b = product_input(t["product_b"], "b")
+
     price_b = st.number_input(
         f"{t['price']} — B",
         min_value=0.0,
@@ -334,6 +345,14 @@ with col_b:
         step=1.0,
         key="price_b"
     )
+
+    currency_b = st.selectbox(
+        "Currency — B",
+        ["THB", "USD", "INR", "EUR", "VND", "CNY",
+         "KRW", "SAR", "AED", "GBP", "JPY", "TRY"],
+        key="currency_b"
+    )
+
     quantity_b = st.number_input(
         f"{t['quantity']} — B",
         min_value=0.01,
@@ -342,10 +361,7 @@ with col_b:
         key="quantity_b"
     )
 
-currency = st.text_input(
-    t["currency"],
-    value="INR"
-)
+
 
 st.divider()
 
@@ -401,15 +417,20 @@ IMPORTANT:
 
 USER INFORMATION:
 
-Product A price: {price_a} {currency}
+Product A price: {price_a} {currency_a}
 Product A quantity: {quantity_a}
 
-Product B price: {price_b} {currency}
+Product B price: {price_b} {currency_b}
 Product B quantity: {quantity_b}
 
 User preferences: {preferences if preferences.strip() else "No preferences provided."}
 
 If a price is zero, treat it as not provided.
+- Prices may use different currencies.
+- Never compare raw amounts from different currencies directly.
+- Show each original price and currency.
+- Only compare converted prices if a reliable exchange rate is available.
+- Clearly state when currency conversion is unavailable.
 Calculate price per unit only when a valid price and quantity are available.
 
 Please organise the answer using these sections:
